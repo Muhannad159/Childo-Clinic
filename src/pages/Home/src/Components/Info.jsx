@@ -1,5 +1,5 @@
-import React from "react";
-import InformationCard from "./InformationCard";
+import React from 'react';
+import InformationCard from './InformationCard';
 import {
   faHeartPulse,
   faTruckMedical,
@@ -7,42 +7,47 @@ import {
   faSyringe,
   faBacteria,
   faBaby,
-} from "@fortawesome/free-solid-svg-icons";
-import "../Styles/Info.css";
+} from '@fortawesome/free-solid-svg-icons';
+import '../Styles/Info.css';
 
 function Info() {
   return (
-    <div className="info-section" id="services">
-      <div className="info-title-content">
-        <h3 className="info-title">
+    <div className='info-section' id='services'>
+      <div className='info-title-content'>
+        <h3 className='info-title'>
           <span>What We Do</span>
         </h3>
-        <p className="info-description">
-          At our child clinic, we prioritize your little one's well-being. Here,
-          you can conveniently book appointments and request prescriptions
-          tailored to your child's needs. Experienced pediatricians are
-          available to assist you in reserving your spot and providing necessary
-          prescriptions promptly.
+        <p className='info-description'>
+          At CHILDIO, we prioritize your little one's well-being. Here, you can
+          conveniently book appointments and request prescriptions tailored to
+          your child's needs. Experienced pediatricians are available to assist
+          you in reserving your spot and providing necessary prescriptions
+          promptly.
         </p>
       </div>
 
-      <div className="info-cards-content">
+      <div className='info-cards-content'>
         <InformationCard
-          title="Sick-child visits"
-          description="When your child is ill, you want to have them seen by a doctor as soon as possible. Your pediatric clinic should have ample time set aside each day for sick-child appointments."
+          title='Sick-child visits'
+          description='Get a swift and expert care for your child. Our clinic offers same-day appointments to quickly diagnose and treat common childhood illnesses, ensuring your child gets back to feeling their best.
+
+
+
+
+
+          '
           icon={faBacteria}
         />
 
         <InformationCard
-          title="Vaccinations"
-          description="Children who receive the recommended vaccinations are protected from 16 different diseases by the age of 2. A pediatric clinic should offer the full spectrum of immunizations.
-          Flu clinics. When flu season arrives in the fall, it is helpful to have a pediatrician’s office that makes it easy to get children their flu shot."
+          title='Vaccinations'
+          description='Protect your child from 16 serious diseases with our comprehensive vaccination program. We also offer convenient flu clinics during the fall to ensure your child stays healthy through flu season.'
           icon={faSyringe}
         />
 
         <InformationCard
-          title="Newborn and infant care"
-          description=" Pediatricians like to see newborns within 2 to 3 days of them coming home from the hospital. Ongoing visits should take place following the schedule established by the American Academy of Pediatrics (AAP)."
+          title='Newborn and infant care'
+          description='Ensure your child is healthy by scheduling a frequently check-up. Our pediatricians provide expert care and guidance to support the growth and development of your child during early days and beyond. '
           icon={faBaby}
         />
       </div>
