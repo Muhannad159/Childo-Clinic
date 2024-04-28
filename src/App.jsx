@@ -8,6 +8,7 @@ import Users from "./pages/Users";
 import Settings from "./pages/Settings";
 import Account from "./pages/Account";
 import Login from "./pages/Login";
+import Signup from "./pages/Signup";
 import PageNotFound from "./pages/PageNotFound";
 import GlobalStyles from "./styles/GlobalStyles";
 import AppLayout from "./ui/AppLayout";
@@ -60,6 +61,7 @@ function App() {
             </Route>
 
             <Route path="login" element={<Login />} />
+            <Route path="register" element={<Signup />} />
             <Route path="*" element={<PageNotFound />} />
             <Route path="HomePage" element={<Home />} />
             <Route path="/legal" element={<Legal />} />
