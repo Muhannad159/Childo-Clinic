@@ -1,10 +1,10 @@
-import { useForm } from 'react-hook-form';
-import Button from '../../ui/Button';
-import Form from '../../ui/Form';
-import FormRow from '../../ui/FormRow';
+import { useForm } from "react-hook-form";
+import Button from "../../ui/Button";
+import Form from "../../ui/Form";
+import FormRow from "../../ui/FormRow";
 // import Input from '../../ui/Input';
-import { useSignup } from './useSignup';
-import { styled } from 'styled-components';
+import { useSignup } from "./useSignup";
+import { styled } from "styled-components";
 
 const Input = styled.input`
   border: 1px solid var(--color-grey-300);
@@ -23,17 +23,18 @@ function SignupForm() {
   const { errors } = formState;
   console.log(errors);
   const { signup, isLoading } = useSignup();
-  const role = 'patient';
+  const role = "patient";
 
   function onSubmit({
     email,
     firstName,
     lastName,
+    userName,
     password,
     passwordConfirm,
     phoneNumber,
-    userName,
   }) {
+    console.log("abl el req", userName, passwordConfirm);
     signup(
       {
         firstName,
@@ -50,87 +51,87 @@ function SignupForm() {
   }
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
-      <FormRow label='First name' error={errors?.fullName?.message}>
+      <FormRow label="First name" error={errors?.fullName?.message}>
         <Input
-          type='text'
+          type="text"
           disabled={isLoading}
-          id='firstName'
-          {...register('firstName', { required: 'This field is required' })}
+          id="firstName"
+          {...register("firstName", { required: "This field is required" })}
         />
       </FormRow>
-      <FormRow label='Last name' error={errors?.fullName?.message}>
+      <FormRow label="Last name" error={errors?.fullName?.message}>
         <Input
-          type='text'
+          type="text"
           disabled={isLoading}
-          id='lastName'
-          {...register('lastName', { required: 'This field is required' })}
+          id="lastName"
+          {...register("lastName", { required: "This field is required" })}
         />
       </FormRow>
-      <FormRow label='User name' error={errors?.fullName?.message}>
+      <FormRow label="User name" error={errors?.fullName?.message}>
         <Input
-          type='text'
+          type="text"
           disabled={isLoading}
-          id='userName'
-          {...register('userName', { required: 'This field is required' })}
+          id="userName"
+          {...register("userName", { required: "This field is required" })}
         />
       </FormRow>
 
-      <FormRow label='Email address' error={errors?.email?.message}>
+      <FormRow label="Email address" error={errors?.email?.message}>
         <Input
-          type='email'
+          type="email"
           disabled={isLoading}
-          id='email'
-          {...register('email', {
-            required: 'This field is required',
+          id="email"
+          {...register("email", {
+            required: "This field is required",
             pattern: {
               value: /\S+@\S+\.\S+/,
-              message: 'Please enter a valid email address',
+              message: "Please enter a valid email address",
             },
           })}
         />
       </FormRow>
 
       <FormRow
-        label='Password (min 8 characters)'
+        label="Password (min 8 characters)"
         error={errors?.password?.message}
       >
         <Input
-          type='password'
+          type="password"
           disabled={isLoading}
-          id='password'
-          {...register('password', {
-            required: 'This field is required',
+          id="password"
+          {...register("password", {
+            required: "This field is required",
             minLength: {
               value: 8,
-              message: 'Password needs a minimum of 8 characters',
+              message: "Password needs a minimum of 8 characters",
             },
           })}
         />
       </FormRow>
 
-      <FormRow label='Repeat password' error={errors?.passwordConfirm?.message}>
+      <FormRow label="Repeat password" error={errors?.passwordConfirm?.message}>
         <Input
-          type='password'
+          type="password"
           disabled={isLoading}
-          id='passwordConfirm'
-          {...register('passwordConfirm', {
-            required: 'This field is required',
+          id="passwordConfirm"
+          {...register("passwordConfirm", {
+            required: "This field is required",
             validate: (value) =>
-              value === getValues().password || 'Passwords need to match',
+              value === getValues().password || "Passwords need to match",
           })}
         />
       </FormRow>
 
-      <FormRow label='Phone Number' error={errors?.phoneNumber?.message}>
+      <FormRow label="Phone Number" error={errors?.phoneNumber?.message}>
         <Input
-          type='text'
+          type="text"
           disabled={isLoading}
-          id='phoneNumber'
-          {...register('phoneNumber', {
-            required: 'This field is required',
+          id="phoneNumber"
+          {...register("phoneNumber", {
+            required: "This field is required",
             pattern: {
               value: /^\+?(\d[\d-. ]+)?(\([\d-. ]+\))?[\d-. ]+\d$/,
-              message: 'Please enter a valid phone number',
+              message: "Please enter a valid phone number",
             },
           })}
         />
@@ -140,8 +141,8 @@ function SignupForm() {
         {/* type is an HTML attribute! */}
         <Button
           disabled={isLoading}
-          variation='secondary'
-          type='reset'
+          variation="secondary"
+          type="reset"
           onClick={reset}
         >
           Cancel

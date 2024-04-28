@@ -1,4 +1,4 @@
-import supabase, { supabaseUrl } from './supabase';
+import supabase, { supabaseUrl } from "./supabase";
 
 export async function signup({
   firstName,
@@ -10,18 +10,39 @@ export async function signup({
   passwordConfirm,
   role,
 }) {
-  const { data, error } = await supabase.auth.signUp({
-    firstName,
-    lastName,
-    userName,
-    phoneNumber,
-    email,
-    password,
-    passwordConfirm,
-    role,
-  });
-  if (error) throw new Error(error.message);
-  return data;
+  try {
+    const requestBody = {
+      firstName: firstName,
+      lastName: lastName,
+      username: userName,
+      phoneNumber: phoneNumber,
+      email: email,
+      password: password,
+      confirmPassword: passwordConfirm,
+      role: role,
+    };
+    console.log("sharmoot", requestBody);
+    const response = await fetch(
+      "http://localhost:5023/api/v1/Staff/register",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestBody),
+      }
+    );
+
+    console.log("res", response);
+    if (!response.ok) {
+      throw new Error("Failed to sign up a7a");
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw new Error(error.message);
+  }
 }
 
 export async function login({ email, password }) {
@@ -64,7 +85,7 @@ export async function updateCurrentUser({ password, fullName, avatar }) {
   // 2. upload the avatar image
   const fileName = `avatar-${data.user.id}-${Math.random()}`;
   const { error: storageError } = await supabase.storage
-    .from('avatars')
+    .from("avatars")
     .upload(fileName, avatar);
 
   if (storageError) throw new Error(storageError.message);
