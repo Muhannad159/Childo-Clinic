@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import styled, { css } from "styled-components";
+import styled, { css } from 'styled-components';
 
 const sizes = {
   small: css`
@@ -23,11 +23,12 @@ const sizes = {
 
 const variations = {
   primary: css`
-    color: var(--color-brand-50);
-    background-color: var(--color-brand-600);
+    color: var(--color-brand-900);
+    background-color: var(--color-indigo-700);
 
     &:hover {
-      background-color: var(--color-brand-700);
+      background-color: var(--color-brand-900);
+      color: var(--color-indigo-700);
     }
   `,
   secondary: css`
@@ -59,8 +60,8 @@ const Button = styled.button`
 `;
 
 Button.defaultProps = {
-  variation: "primary",
-  size: "medium",
+  variation: 'primary',
+  size: 'medium',
 };
 
 export default Button;

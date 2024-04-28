@@ -7,7 +7,7 @@ const Form = styled.form`
       padding: 2.4rem 4rem;
 
       /* Box */
-      background-color: var(--color-brand-900);
+      background-color: #28a8d2;
       border: 1px solid var(--color-grey-100);
       border-radius: var(--border-radius-md);
     `}
