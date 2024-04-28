@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 // import { useDarkMode } from '../context/DarkModeContext';
 
 const StyledLogo = styled.div`
@@ -6,17 +6,16 @@ const StyledLogo = styled.div`
 `;
 
 const Img = styled.img`
-  height: 9.6rem;
+  height: 25.6rem;
+
   width: auto;
 `;
 
 function Logo() {
   // const { isDarkMode } = useDarkMode();
-
-  // const src = '../pages/Home/src/Assets/childio-without-bg.png';
   return (
     <StyledLogo>
-      <Img src='../pages/Home/src/Assets/childio-without-bg.png' alt='Logo' />
+      <Img src="src\pages\Home\src\Assets\childio-without-bg.png" alt="Logo" />
     </StyledLogo>
   );
 }
