@@ -21,7 +21,6 @@ export async function signup({
       confirmPassword: passwordConfirm,
       role: role,
     };
-    console.log("sharmoot", requestBody);
     const response = await fetch(
       "http://localhost:5023/api/v1/Staff/register",
       {
@@ -32,26 +31,45 @@ export async function signup({
         body: JSON.stringify(requestBody),
       }
     );
-
     console.log("res", response);
+    const responseData = await response.json();
+    console.log("data", responseData);
     if (!response.ok) {
-      throw new Error("Failed to sign up a7a");
+      console.error("Failed to sign Up:", responseData.errors[0].message);
+      throw new Error("Failed to sign Up");
     }
-
-    const data = await response.json();
-    return data;
+    return responseData;
   } catch (error) {
     throw new Error(error.message);
   }
 }
 
 export async function login({ email, password }) {
-  let { data, error } = await supabase.auth.signInWithPassword({
-    email,
-    password,
-  });
-  if (error) throw new Error(error.message);
-  return data;
+  try {
+    const requestBody = {
+      email: email,
+      password: password,
+    };
+    const response = await fetch("http://localhost:5023/api/v1/User/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(requestBody),
+    });
+
+    console.log("res", response);
+    const responseData = await response.json();
+    console.log("data", responseData);
+    if (!response.ok) {
+      console.error("Failed to sign in:", responseData.errors[0].message);
+      throw new Error("Failed to sign in");
+    }
+
+    return responseData;
+  } catch (error) {
+    throw new Error(error.message);
+  }
 }
 
 export async function getCurrentUser() {
