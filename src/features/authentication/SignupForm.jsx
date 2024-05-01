@@ -23,7 +23,7 @@ function SignupForm() {
   const { errors } = formState;
   console.log(errors);
   const { signup, isLoading } = useSignup();
-  const role = "patient";
+  const role = "ADMIN";
 
   function onSubmit({
     email,

@@ -10,6 +10,10 @@ export function useSignup() {
         "Account successfully created! Please verify the new account from the user's email address "
       );
     },
+    onError: (err) => {
+      console.log("ERROR", err);
+      toast.error("Provided Data are not valid");
+    },
   });
   return { signup, isLoading };
 }
