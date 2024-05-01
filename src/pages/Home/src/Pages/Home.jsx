@@ -14,7 +14,7 @@ function Home() {
       <Hero />
       <Info />
       <About />
-      <Doctors />
+
       <Reviews />
       <Footer />
     </div>
