@@ -49,7 +49,8 @@ export async function signup({
   password,
   passwordConfirm,
   role,
-  setOnSuccess,
+  setShowSuccess,
+  setShowError,
 }) {
   let requestBody;
   let response;
@@ -89,15 +90,19 @@ export async function signup({
       body: JSON.stringify(requestBody),
     });
   }
+  if (!response.ok) {
+    setShowError(true);
+    setTimeout(() => setShowError(false), 3000);
+    // console.error("Failed to sign Up:", responseData.errors[0].message);
+    throw new Error("Failed to sign Up");
+  } else {
+    setShowSuccess(true);
+    setTimeout(() => setShowSuccess(false), 3000);
+  }
   console.log("res", response);
   const responseData = await response.json();
   console.log("data", responseData);
-  if (!response.ok) {
-    setOnSuccess(false);
-    console.error("Failed to sign Up:", responseData.errors[0].message);
-    throw new Error("Failed to sign Up");
-  }
-  setOnSuccess(true);
+
   return responseData;
 }
 

@@ -37,6 +37,7 @@ const variations = {
     border: 1px solid var(--color-grey-200);
 
     &:hover {
+      color: var(--color-brand-900);
       background-color: var(--color-grey-50);
     }
   `,

@@ -12,7 +12,8 @@ export function useSignup() {
       password,
       passwordConfirm,
       role,
-      setOnSuccess,
+      setShowSuccess,
+      setShowError,
     }) =>
       signupApi({
         firstName,
@@ -23,7 +24,8 @@ export function useSignup() {
         password,
         passwordConfirm,
         role,
-        setOnSuccess,
+        setShowSuccess,
+        setShowError,
       }),
     // onSuccess: (user) => {
     //   console.log("Success msg", user);
