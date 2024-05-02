@@ -3,10 +3,21 @@
 import { useState } from "react";
 import Button from "../../ui/Button";
 import Form from "../../ui/Form";
-import Input from "../../ui/Input";
+// import Input from "../../ui/Input";
 import FormRowVertical from "../../ui/FormRowVertical";
 import { useLogin } from "./useLogin";
 import SpinnerMini from "./../../ui/SpinnerMini";
+
+import { styled } from "styled-components";
+
+const Input = styled.input`
+  border: 1px solid var(--color-brand-900);
+  background-color: var(--color-blue-100);
+  border-radius: var(--border-radius-sm);
+  padding: 0.8rem 1.2rem;
+  box-shadow: var(--shadow-sm);
+  color: var(--color-brand-900);
+`;
 
 function LoginForm() {
   const [email, setEmail] = useState("user2@example.com");
@@ -50,7 +61,7 @@ function LoginForm() {
         />
       </FormRowVertical>
       <FormRowVertical>
-        <Button size="large" disabled={isLoading}>
+        <Button size="large" variation="secondary" disabled={isLoading}>
           {!isLoading ? "Login" : <SpinnerMini />}
         </Button>
       </FormRowVertical>

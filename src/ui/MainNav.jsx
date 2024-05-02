@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
-import { NavLink } from 'react-router-dom';
-import styled from 'styled-components';
+import { NavLink } from "react-router-dom";
+import styled from "styled-components";
 import {
   HiOutlineCalendarDays,
   HiOutlineCog6Tooth,
@@ -8,7 +8,7 @@ import {
   HiOutlineHomeModern,
   HiOutlineLink,
   HiOutlineUsers,
-} from 'react-icons/hi2';
+} from "react-icons/hi2";
 
 const NavList = styled.ul`
   display: flex;
@@ -60,34 +60,34 @@ function MainNav() {
     <nav>
       <NavList>
         <li>
-          <StyledNavLink to='/dashboard'>
+          <StyledNavLink to="/dashboard">
             <HiOutlineHome />
             <span>Home</span>
           </StyledNavLink>
         </li>
         <li>
-          <StyledNavLink to='/bookings'>
+          <StyledNavLink to="/bookings">
             <HiOutlineCalendarDays />
-            <span>Bookings</span>
+            <span>Reservations</span>
           </StyledNavLink>
         </li>
         <li>
-          <StyledNavLink to='/cabins'>
+          <StyledNavLink to="/cabins">
             <HiOutlineUsers />
-            <span>Patients</span>
+            <span>Staff</span>
           </StyledNavLink>
         </li>
         <li>
-          <StyledNavLink to='/users'>
+          <StyledNavLink to="/users">
             <HiOutlineUsers />
-            <span>Doctors</span>
+            <span>Create new member</span>
           </StyledNavLink>
         </li>
         <li>
-          <StyledNavLink to='/settings'>
+          {/* <StyledNavLink to='/settings'>
             <HiOutlineUsers />
-            <span>Nurses</span>
-          </StyledNavLink>
+            <span>"Nurses"</span>
+          </StyledNavLink> */}
         </li>
       </NavList>
     </nav>

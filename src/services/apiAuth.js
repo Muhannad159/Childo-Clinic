@@ -49,9 +49,12 @@ export async function signup({
   password,
   passwordConfirm,
   role,
+  setOnSuccess,
 }) {
-  try {
-    const requestBody = {
+  let requestBody;
+  let response;
+  if (role != "USER") {
+    requestBody = {
       firstName: firstName,
       lastName: lastName,
       username: userName,
@@ -61,27 +64,41 @@ export async function signup({
       confirmPassword: passwordConfirm,
       role: role,
     };
-    const response = await fetch(
-      "http://localhost:5023/api/v1/Staff/register",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(requestBody),
-      }
-    );
-    console.log("res", response);
-    const responseData = await response.json();
-    console.log("data", responseData);
-    if (!response.ok) {
-      console.error("Failed to sign Up:", responseData.errors[0].message);
-      throw new Error("Failed to sign Up");
-    }
-    return responseData;
-  } catch (error) {
-    throw new Error(error.message);
+    response = await fetch("http://localhost:5023/api/v1/Staff/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(requestBody),
+    });
+  } else {
+    requestBody = {
+      firstName: firstName,
+      lastName: lastName,
+      username: userName,
+      phoneNumber: phoneNumber,
+      email: email,
+      password: password,
+      confirmPassword: passwordConfirm,
+    };
+    response = await fetch("http://localhost:5023/api/v1/User/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(requestBody),
+    });
   }
+  console.log("res", response);
+  const responseData = await response.json();
+  console.log("data", responseData);
+  if (!response.ok) {
+    setOnSuccess(false);
+    console.error("Failed to sign Up:", responseData.errors[0].message);
+    throw new Error("Failed to sign Up");
+  }
+  setOnSuccess(true);
+  return responseData;
 }
 
 export async function login({ email, password }) {

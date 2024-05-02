@@ -1,21 +1,88 @@
 import { useForm } from "react-hook-form";
-import Button from "../../ui/Button";
+// import Button from "../../ui/Button";
 import Form from "../../ui/Form";
 import FormRow from "../../ui/FormRow";
 // import Input from '../../ui/Input';
 import { useSignup } from "./useSignup";
-import { styled } from "styled-components";
+import styled, { css } from "styled-components";
 
-const Input = styled.input`
+const sizes = {
+  small: css`
+    font-size: 1.2rem;
+    padding: 0.4rem 0.8rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    text-align: center;
+  `,
+  medium: css`
+    font-size: 1.4rem;
+    padding: 1.2rem 1.6rem;
+    font-weight: 500;
+  `,
+  large: css`
+    font-size: 1.6rem;
+    padding: 1.2rem 2.4rem;
+    font-weight: 500;
+  `,
+};
+
+const variations = {
+  primary: css`
+    color: var(--color-brand-900);
+    background-color: var(--color-indigo-700);
+
+    &:hover {
+      background-color: var(--color-brand-900);
+      color: var(--color-indigo-700);
+    }
+  `,
+  secondary: css`
+    color: var(--color-grey-100);
+    background: var(--color-brand-900);
+    border: 1px solid var(--color-grey-200);
+
+    &:hover {
+      background-color: var(--color-grey-50);
+    }
+  `,
+  danger: css`
+    color: var(--color-red-100);
+    background-color: var(--color-red-700);
+
+    &:hover {
+      background-color: var(--color-red-800);
+    }
+  `,
+};
+const Button = styled.button`
+  border: none;
+  border-radius: var(--border-radius-sm);
+  box-shadow: var(--shadow-sm);
+  color: var(--color-blue-100);
+  background-color: var(--color-brand-900);
+  ${(props) => sizes[props.size]}
+  ${(props) => variations[props.variation]}
+`;
+
+const Select = styled.select`
   border: 1px solid var(--color-grey-300);
-  background-color: var(--color-indigo-700);
+  background-color: var(--color-blue-100);
   border-radius: var(--border-radius-sm);
   padding: 0.8rem 1.2rem;
   box-shadow: var(--shadow-sm);
-  color: var(--color-grey-100);
+  color: var(--color-brand-900);
   width: 355px;
 `;
 
+const Input = styled.input`
+  border: 1px solid var(--color-grey-300);
+  background-color: var(--color-blue-100);
+  border-radius: var(--border-radius-sm);
+  padding: 0.8rem 1.2rem;
+  box-shadow: var(--shadow-sm);
+  color: var(--color-brand-900);
+  width: 355px;
+`;
 // Email regex: /\S+@\S+\.\S+/
 
 function SignupForm() {
@@ -23,7 +90,7 @@ function SignupForm() {
   const { errors } = formState;
   console.log(errors);
   const { signup, isLoading } = useSignup();
-  const role = "ADMIN";
+  let token = localStorage.getItem("token");
 
   function onSubmit({
     email,
@@ -33,8 +100,11 @@ function SignupForm() {
     password,
     passwordConfirm,
     phoneNumber,
+    role,
   }) {
-    console.log("abl el req", userName, passwordConfirm);
+    if (!token) {
+      role = "USER";
+    }
     signup(
       {
         firstName,
@@ -136,18 +206,34 @@ function SignupForm() {
           })}
         />
       </FormRow>
-
+      {token && (
+        <FormRow label="Role">
+          <Select
+            id="role"
+            disabled={isLoading}
+            {...register("role", { required: "This field is required" })}
+          >
+            <option value="">Select a role</option>4
+            <option value="ADMIN">Admin</option>
+            <option value="DOCTOR">Doctor</option>
+            <option value="NURSE">Nurse</option>
+          </Select>
+          {/* {errors.role && <span>{errors.role}</span>} */}
+        </FormRow>
+      )}
       <FormRow>
-        {/* type is an HTML attribute! */}
         <Button
           disabled={isLoading}
+          size="medium"
           variation="secondary"
           type="reset"
           onClick={reset}
         >
           Cancel
         </Button>
-        <Button disabled={isLoading}>Create new user</Button>
+        <Button size="medium" disabled={isLoading}>
+          Create new user
+        </Button>
       </FormRow>
     </Form>
   );

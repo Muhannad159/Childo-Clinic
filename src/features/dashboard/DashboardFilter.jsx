@@ -1,13 +1,13 @@
-import Filter from '../../ui/Filter';
+import Filter from "../../ui/Filter";
 
 function DashboardFilter() {
   return (
     <Filter
-      filterField='last'
+      filterField="last"
       options={[
-        { value: 'Patients', label: 'Doctors' },
-        { value: 'Doctors', label: 'Doctors' },
-        { value: 'Nurses', label: 'Nurses' },
+        { value: "Patients", label: "Patients" },
+        { value: "Doctors", label: "Doctors" },
+        { value: "Nurses", label: "Nurses" },
       ]}
     />
   );

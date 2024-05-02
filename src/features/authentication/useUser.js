@@ -14,6 +14,6 @@ export function useUser() {
       user?.role === "ADMIN" ||
       user?.role === "DOCTOR" ||
       user?.role === "NURSE" ||
-      user?.role === "PATIENT",
+      user?.role === "USER",
   };
 }

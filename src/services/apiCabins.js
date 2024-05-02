@@ -1,14 +1,26 @@
 /* eslint-disable no-unused-vars */
 import supabase, { supabaseUrl } from "./supabase";
 
-export async function getCabins() {
-  const { data, error } = await supabase.from("cabins").select("*");
+// export async function getCabins() {
+//   const { data, error } = await supabase.from("cabins").select("*");
 
-  if (error) {
-    console.error(error);
-    throw new Error("Cabins could not be loaded");
-  }
-  return data;
+//   if (error) {
+//     console.error(error);
+//     throw new Error("Cabins could not be loaded");
+//   }
+//   return data;
+// }
+export async function getCabins() {
+  const response = await fetch(`http://localhost:5023/api/v1/Staff`, {
+    method: "GET",
+    headers: {
+      Accept: "*/*",
+    },
+  });
+  // console.log("res", response);
+  const responseData = await response.json();
+  console.log("data", responseData);
+  return responseData;
 }
 
 export async function createEditCabin(newCabin, id) {
