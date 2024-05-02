@@ -6,5 +6,14 @@ export function useUser() {
     queryKey: ["user"],
     queryFn: getCurrentUser,
   });
-  return { isLoading, user, isAuthenticated: user?.role === "authenticated" };
+  return {
+    isLoading,
+    user,
+    isAuthenticated:
+      user?.role === "SUPERADMIN" ||
+      user?.role === "ADMIN" ||
+      user?.role === "DOCTOR" ||
+      user?.role === "NURSE" ||
+      user?.role === "PATIENT",
+  };
 }

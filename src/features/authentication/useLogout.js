@@ -9,7 +9,8 @@ export function useLogout() {
     mutationFn: LogoutApi,
     onSuccess: () => {
       queryClient.removeQueries();
-      navigate("/login", { replace: true });
+      localStorage.removeItem("token");
+      navigate("/HomePage", { replace: true });
     },
   });
   return { Logout, isLoading };
