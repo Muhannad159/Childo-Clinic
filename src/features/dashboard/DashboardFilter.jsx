@@ -5,9 +5,9 @@ function DashboardFilter() {
     <Filter
       filterField="last"
       options={[
-        { value: "Patients", label: "Patients" },
-        { value: "Doctors", label: "Doctors" },
-        { value: "Nurses", label: "Nurses" },
+        { value: "USER", label: "Patients" },
+        { value: "DOCTOR", label: "Doctors" },
+        { value: "NURSE", label: "Nurses" },
       ]}
     />
   );
