@@ -1,5 +1,3 @@
-import supabase, { supabaseUrl } from "./supabase";
-
 function decodeJWT(token) {
   const base64Url = token.split(".")[1];
   const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
@@ -169,36 +167,43 @@ export async function getCurrentUser() {
 }
 
 export async function Logout() {
-  const { error } = await supabase.auth.signOut();
-
-  if (error) throw new Error(error.message);
+  localStorage.removeItem("token");
 }
 
-export async function updateCurrentUser({ password, fullName, avatar }) {
-  // 1. Update password or fullName
-  let updateData;
-  if (password) updateData = { password };
-  if (fullName) updateData = { data: { fullName } };
-
-  const { data, error } = await supabase.auth.updateUser(updateData);
-  if (error) throw new Error(error.message);
-
-  if (!avatar) return data;
-
-  // 2. upload the avatar image
-  const fileName = `avatar-${data.user.id}-${Math.random()}`;
-  const { error: storageError } = await supabase.storage
-    .from("avatars")
-    .upload(fileName, avatar);
-
-  if (storageError) throw new Error(storageError.message);
-
-  // 3. upload the avatar in the user
-  const { data: updatedUser, error: error2 } = await supabase.auth.updateUser({
-    data: {
-      avatar: `${supabaseUrl}/storage/v1/object/public/avatars/${fileName}`,
-    },
-  });
-  if (error2) throw new Error(error2.message);
-  return updatedUser;
+export async function updateCurrentUser({
+  firstNameForm,
+  lastNameForm,
+  phoneNumberForm,
+  email,
+  staffId,
+}) {
+  try {
+    console.log("ph changed", phoneNumberForm);
+    const response = await fetch(
+      `http://localhost:5023/api/v1/Staff/${staffId}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "*/*",
+        },
+        body: JSON.stringify({
+          firstName: firstNameForm,
+          lastName: lastNameForm,
+          phoneNumber: phoneNumberForm,
+          email: email,
+        }),
+      }
+    );
+    console.log("user data res", response);
+    const user = await response.json();
+    console.log("user data from update", user);
+    if (!response.ok) {
+      console.error("Failed to fetch user dataa:", user.errors[0].message);
+      throw new Error("Failed to fetch user data");
+    }
+    return user;
+  } catch (error) {
+    console.error("Error fetching staff data:", error);
+  }
 }

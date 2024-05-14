@@ -18,20 +18,22 @@ function UpdateUserDataForm() {
 
   console.log("yahh", email, firstName, lastName, phoneNumber, role, staffId);
   let currentFullName = firstName + " " + lastName;
-  const [fullName, setFullName] = useState(currentFullName);
+  const [firstNameForm, setFirstNameForm] = useState(firstName);
+  const [lastNameForm, setLastNameForm] = useState(lastName);
+  const [phoneNumberForm, setPhoneNumberForm] = useState(phoneNumber);
   const [avatar, setAvatar] = useState(null);
   const { updateUser, isUpdating } = useUpdateUser();
 
   function handleSubmit(e) {
     e.preventDefault();
-    if (!fullName) return;
+    if (!firstName) return;
     updateUser(
-      { fullName, avatar },
+      { firstNameForm, lastNameForm, phoneNumberForm, email, staffId },
       {
         onSuccess: () => {
           setAvatar(null);
 
-          e.target.reset();
+          // e.target.reset();
         },
       }
     );
@@ -39,7 +41,9 @@ function UpdateUserDataForm() {
 
   function handleCancel() {
     // We dont need to prevent default bec the cutton has type:reset
-    setFullName(currentFullName);
+    setFirstNameForm(firstName);
+    setLastNameForm(lastName);
+    setPhoneNumberForm(phoneNumber);
     setAvatar(null);
   }
 
@@ -48,23 +52,41 @@ function UpdateUserDataForm() {
       <FormRow label="Email address">
         <Input value={email} disabled />
       </FormRow>
-      <FormRow label="Full name">
+      <FormRow label="First name">
         <Input
           type="text"
-          value={fullName}
-          onChange={(e) => setFullName(e.target.value)}
-          id="fullName"
+          value={firstNameForm}
+          onChange={(e) => setFirstNameForm(e.target.value)}
+          id="firstName"
           disabled={isUpdating}
         />
       </FormRow>
-      <FormRow label="Avatar image">
+      <FormRow label="Last name">
+        <Input
+          type="text"
+          value={lastNameForm}
+          onChange={(e) => setLastNameForm(e.target.value)}
+          id="lastName"
+          disabled={isUpdating}
+        />
+      </FormRow>
+      <FormRow label="Phone Number">
+        <Input
+          type="text"
+          value={phoneNumberForm}
+          onChange={(e) => setPhoneNumberForm(e.target.value)}
+          id="phoneNumber"
+          disabled={isUpdating}
+        />
+      </FormRow>
+      {/* <FormRow label="Avatar image">
         <FileInput
           id="avatar"
           accept="image/*"
           onChange={(e) => setAvatar(e.target.files[0])}
           disabled={isUpdating}
         />
-      </FormRow>
+      </FormRow> */}
       <FormRow>
         <Button
           onClick={handleCancel}
