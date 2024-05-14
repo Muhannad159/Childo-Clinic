@@ -59,10 +59,10 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
       onSubmit={handleSubmit(onSubmit, onError)}
       type={onCloseModal ? "modal" : "regular"}
     >
-      <FormRow label="cabin name" error={errors?.name?.message}>
+      <FormRow label="Patient Name" error={errors?.name?.message}>
         <Input
           type="text"
-          id="name"
+          id="patient name"
           disabled={isWorking}
           {...register("name", {
             required: "This field is required",
@@ -70,52 +70,51 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
         />
       </FormRow>
 
-      <FormRow label="Maximum capacity" error={errors?.maxCapacity?.message}>
+      <FormRow label="Day">
         <Input
           type="number"
-          id="maxCapacity"
+          id="day"
           disabled={isWorking}
-          {...register("maxCapacity", {
-            required: "This field is required",
-            min: {
-              value: 1,
-              message: "Capacity should be at least 1",
-            },
-          })}
+          // {...register("Day", {
+          //   required: "This field is required",
+          //   min: {
+          //     value: 1,
+          //     message: "Capacity should be at least 1",
+          //   },
+          // })}
         />
       </FormRow>
 
-      <FormRow label="Regular price" error={errors?.regularPrice?.message}>
+      <FormRow label="Time" error={errors?.regularPrice?.message}>
         <Input
           type="number"
-          id="regularPrice"
+          id="time"
           disabled={isWorking}
-          {...register("regularPrice", {
-            required: "This field is required",
-            min: {
-              value: 1,
-              message: "Price should be at least 1",
-            },
-          })}
+          // {...register("regularPrice", {
+          //   required: "This field is required",
+          //   min: {
+          //     value: 1,
+          //     message: "Price should be at least 1",
+          //   },
+          // })}
         />
       </FormRow>
 
-      <FormRow label="Discount" error={errors?.discount?.message}>
+      <FormRow label="Doctor" error={errors?.discount?.message}>
         <Input
           type="number"
-          id="discount"
+          id="doctor"
           disabled={isWorking}
-          defaultValue={0}
-          {...register("discount", {
-            required: "This field is required",
-            validate: (value) =>
-              value <= getValues().regularPrice ||
-              "Discount should be less than regular price",
-          })}
+          // {...register("discount", {
+          //   required: "This field is required",
+          //   validate: (value) =>
+          //     value <= getValues().regularPrice ||
+          //     "Discount should be less than regular price",
+          // })}
         />
       </FormRow>
 
-      <FormRow
+      {/* <FormRow
         label="Description for website"
         error={errors?.description?.message}
       >
@@ -139,8 +138,8 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
           {...register("image", {
             required: isEditSession ? false : "This field is required",
           })}
-        />
-      </FormRow>
+        /> */}
+      {/* </FormRow> */}
 
       <FormRow>
         {/* type is an HTML attribute! */}
