@@ -11,17 +11,17 @@ function Account() {
   // show a div with the user's name, role, and email
   return (
     <>
-      <Heading as='h1'>Welcome{fullName}</Heading>
+      <Heading as='h1'>Welcome {fullName}</Heading>
       <Heading as='h2'>Role: {role}</Heading>
       <Heading as='h2'>Email: {user.email}</Heading>
 
       <Row>
-        <Heading as='h3'>Update user data</Heading>
+        <Heading as='h3'>Update your data</Heading>
         <UpdateUserDataForm />
       </Row>
 
       <Row>
-        <Heading as='h3'>Update password</Heading>
+        <Heading as='h3'>Update your password</Heading>
         <UpdatePasswordForm />
       </Row>
     </>
