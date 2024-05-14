@@ -1,12 +1,12 @@
 /* eslint-disable no-unused-vars */
 
-import Spinner from "../../ui/Spinner";
-import CabinRow from "./CabinRow";
-import { useCabins } from "./useCabins";
-import Table from "../../ui/Table";
-import Menus from "../../ui/Menus";
-import { useSearchParams } from "react-router-dom";
-import Empty from "../../ui/Empty";
+import Spinner from '../../ui/Spinner';
+import CabinRow from './CabinRow';
+import { useCabins } from './useCabins';
+import Table from '../../ui/Table';
+import Menus from '../../ui/Menus';
+import { useSearchParams } from 'react-router-dom';
+import Empty from '../../ui/Empty';
 
 function CabinTable() {
   const { isLoading, cabins } = useCabins();
@@ -14,16 +14,16 @@ function CabinTable() {
 
   if (isLoading) return <Spinner />;
 
-  if (!cabins.count) return <Empty resourceName="Members" />;
+  if (!cabins.count) return <Empty resourceName='Members' />;
 
   // 1) Filter
-  const filterValue = searchParams.get("discount") || "all";
+  const filterValue = searchParams.get('discount') || 'all';
 
   let filteredCabins;
-  if (filterValue === "all") filteredCabins = cabins;
-  if (filterValue === "no-discount")
+  if (filterValue === 'all') filteredCabins = cabins;
+  if (filterValue === 'no-discount')
     filteredCabins = cabins.filter((cabin) => cabin.discount === 0);
-  if (filterValue === "with-discount")
+  if (filterValue === 'with-discount')
     filteredCabins = cabins.filter((cabin) => cabin.discount > 0);
 
   // 2) SORT
@@ -35,7 +35,7 @@ function CabinTable() {
   // );
   return (
     <Menus>
-      <Table columns="1.8fr 1.8fr 2.2fr 1fr 1fr">
+      <Table columns='2.2fr 2.2fr 1.6fr 1.4fr '>
         <Table.Header>
           <div>Name</div>
           <div>Email</div>
