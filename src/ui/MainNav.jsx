@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
+import { useUser } from "../features/authentication/useUser";
 import {
   HiOutlineCalendarDays,
   HiOutlineCog6Tooth,
@@ -56,42 +57,50 @@ const StyledNavLink = styled(NavLink)`
 `;
 
 function MainNav() {
-  return (
-    <nav>
-      <NavList>
-        <li>
-          <StyledNavLink to="/dashboard">
-            <HiOutlineHome />
-            <span>Home</span>
-          </StyledNavLink>
-        </li>
-        <li>
-          <StyledNavLink to="/reservations">
-            <HiOutlineCalendarDays />
-            <span>Reservations</span>
-          </StyledNavLink>
-        </li>
-        <li>
-          <StyledNavLink to="/cabins">
-            <HiOutlineUsers />
-            <span>Staff</span>
-          </StyledNavLink>
-        </li>
-        <li>
-          <StyledNavLink to="/users">
-            <HiOutlineUsers />
-            <span>Create new member</span>
-          </StyledNavLink>
-        </li>
-        <li>
-          {/* <StyledNavLink to='/settings'>
-            <HiOutlineUsers />
-            <span>"Nurses"</span>
-          </StyledNavLink> */}
-        </li>
-      </NavList>
-    </nav>
-  );
+  const { user } = useUser();
+  let userRole = user.role;
+
+  // Check if the user is an admin or super admin
+  let isAdmin = userRole === "ADMIN";
+  let isSuperAdmin = userRole === "SUPERADMIN";
+
+  // Conditionally render the navigation based on user role
+  if (isAdmin || isSuperAdmin) {
+    return (
+      <nav>
+        <NavList>
+          <li>
+            <StyledNavLink to="/dashboard">
+              <HiOutlineHome />
+              <span>Home</span>
+            </StyledNavLink>
+          </li>
+          <li>
+            <StyledNavLink to="/reservations">
+              <HiOutlineCalendarDays />
+              <span>Reservations</span>
+            </StyledNavLink>
+          </li>
+          <li>
+            <StyledNavLink to="/cabins">
+              <HiOutlineUsers />
+              <span>Staff</span>
+            </StyledNavLink>
+          </li>
+          <li>
+            <StyledNavLink to="/users">
+              <HiOutlineUsers />
+              <span>Create new member</span>
+            </StyledNavLink>
+          </li>
+          {/* Additional navigation items for admin or super admin */}
+        </NavList>
+      </nav>
+    );
+  } else {
+    // Render nothing if the user is not an admin or super admin
+    return null;
+  }
 }
 
 export default MainNav;
