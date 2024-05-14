@@ -82,7 +82,7 @@ function CabinRow({ cabin }) {
       <Price>{phoneNumber}</Price>
       <Price> {role}</Price>
 
-      <div>
+      {/* <div>
         <Modal>
           <Menus.Menu>
             <Menus.Toggle id={cabinstaffId} />
@@ -112,7 +112,7 @@ function CabinRow({ cabin }) {
             />
           </Modal.Window>
         </Modal>
-      </div>
+      </div> */}
     </Table.Row>
   );
 }
