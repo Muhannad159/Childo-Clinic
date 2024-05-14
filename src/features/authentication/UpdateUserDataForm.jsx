@@ -96,7 +96,11 @@ function UpdateUserDataForm() {
         >
           Cancel
         </Button>
-        <Button onClick={handleSubmit} disabled={isUpdating}>
+        <Button
+          onClick={handleSubmit}
+          disabled={isUpdating}
+          variation="secondary"
+        >
           Update account
         </Button>
       </FormRow>
