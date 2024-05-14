@@ -1,17 +1,21 @@
 // import BookingRow from "./BookingRow";
 import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
-import Empty from "../../ui/Empty";
-import { useBookings } from "./useBookings";
+//import Empty from "../../ui/Empty";
+//import { useBookings } from "./useBookings";
 import Spinner from "./../../ui/Spinner";
-import BookingRow from "./BookingRow";
-import Pagination from "../../ui/Pagination";
+// import BookingRow from "./BookingRow";
+
+//import Pagination from "../../ui/Pagination";
+import { useCabins } from "../cabins/useCabins";
+import CabinRow from "../cabins/CabinRow";
 
 function BookingTable() {
-  const { bookings, isLoading, count } = useBookings();
+  const { isLoading, cabins } = useCabins();
+  // const { bookings, isLoading, count } = useBookings();
   if (isLoading) return <Spinner />;
 
-  if (!bookings.length) return <Empty resourceName="reservations" />;
+  // if (!bookings.length) return <Empty resourceName="reservations" />;
   return (
     <Menus>
       <Table columns="0.6fr 2fr 2.4fr 1.4fr 1fr 3.2rem">
@@ -25,14 +29,12 @@ function BookingTable() {
         </Table.Header>
 
         <Table.Body
-          data={bookings}
-          render={(booking) => (
-            <BookingRow key={booking.id} booking={booking} />
-          )}
+          data={cabins.data}
+          render={(cabin) => <CabinRow key={cabin.id} booking={cabin} />}
         />
-        <Table.Footer>
+        {/* <Table.Footer>
           <Pagination count={count} />
-        </Table.Footer>
+        </Table.Footer> */}
       </Table>
     </Menus>
   );
