@@ -10,5 +10,6 @@ export function useCabins() {
     queryKey: ["cabins"],
     queryFn: getCabins,
   });
+  console.log("hena tb", cabins);
   return { isLoading, error, cabins };
 }

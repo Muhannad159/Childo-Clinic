@@ -28,7 +28,8 @@ const TableHeader = styled.header`
 `;
 
 function CabinTable() {
-  const { isLoading, cabins } = useCabins();
+  const { isLoading, error, cabins } = useCabins();
+  console.log("Cabs data", cabins);
   if (isLoading) return <Spinner />;
   return (
     <Table role="table">
@@ -41,7 +42,7 @@ function CabinTable() {
         <div></div>
       </TableHeader>
       {cabins.map((cabin) => (
-        <CabinRow cabin={cabin} key={cabin.id} />
+        <CabinRow cabin={cabin.data} key={cabin.id} />
       ))}
     </Table>
   );

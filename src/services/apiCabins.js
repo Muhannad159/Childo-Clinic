@@ -18,9 +18,9 @@ export async function getCabins() {
     },
   });
   // console.log("res", response);
-  const responseData = await response.json();
-  console.log("data", responseData);
-  return responseData;
+  const cabins = await response.json();
+  console.log("data", cabins);
+  return cabins;
 }
 
 export async function createEditCabin(newCabin, id) {

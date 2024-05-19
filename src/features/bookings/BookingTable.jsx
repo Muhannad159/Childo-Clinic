@@ -1,42 +1,43 @@
 // import BookingRow from "./BookingRow";
-import Table from "../../ui/Table";
-import Menus from "../../ui/Menus";
+// import Table from "../../ui/Table";
+// import Menus from "../../ui/Menus";
 //import Empty from "../../ui/Empty";
-//import { useBookings } from "./useBookings";
-import Spinner from "./../../ui/Spinner";
+// import { useBookings } from "./useBookings";
+// import Spinner from "./../../ui/Spinner";
 // import BookingRow from "./BookingRow";
 
 //import Pagination from "../../ui/Pagination";
-import { useCabins } from "../cabins/useCabins";
-import CabinRow from "../cabins/CabinRow";
+// import { useCabins } from "../cabins/useCabins";
+// import CabinRow from "../cabins/CabinRow";
 
 function BookingTable() {
-  const { isLoading, cabins } = useCabins();
+  // const { isLoading, cabins } = useCabins();
   // const { bookings, isLoading, count } = useBookings();
-  if (isLoading) return <Spinner />;
+  // if (isLoading) return <Spinner />;
 
   // if (!bookings.length) return <Empty resourceName="reservations" />;
   return (
-    <Menus>
-      <Table columns="0.6fr 2fr 2.4fr 1.4fr 1fr 3.2rem">
-        <Table.Header>
-          <div>ID</div>
-          <div>Username</div>
-          <div>Patient Name</div>
-          <div>Doctor Name</div>
-          <div>Date</div>
-          <div></div>
-        </Table.Header>
+    <></>
+    // <Menus>
+    //   <Table columns="0.6fr 2fr 2.4fr 1.4fr 1fr 3.2rem">
+    //     <Table.Header>
+    //       <div>ID</div>
+    //       <div>Username</div>
+    //       <div>Patient Name</div>
+    //       <div>Doctor Name</div>
+    //       <div>Date</div>
+    //       <div></div>
+    //     </Table.Header>
 
-        <Table.Body
-          data={cabins.data}
-          render={(cabin) => <CabinRow key={cabin.id} booking={cabin} />}
-        />
-        {/* <Table.Footer>
-          <Pagination count={count} />
-        </Table.Footer> */}
-      </Table>
-    </Menus>
+    //     <Table.Body
+    //       data={bookings.data}
+    //       render={(cabin) => <CabinRow key={bookings.id} booking={cabin} />}
+    //     />
+    //     {/* <Table.Footer>
+    //       <Pagination count={count} />
+    //     </Table.Footer> */}
+    //   </Table>
+    // </Menus>
   );
 }
 
