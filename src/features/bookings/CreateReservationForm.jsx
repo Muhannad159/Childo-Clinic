@@ -141,6 +141,14 @@ function CreateReservationForm({ reservationToEdit = {}, onCloseModal }) {
   const { isDoctorSelected, doctorSelected } = useState(false);
 
   function onSubmit(data) {
+    const selectedDate = new Date(data.date);
+    const adjustedDate = new Date(
+      2024,
+      selectedDate.getMonth(),
+      selectedDate.getDate()
+    );
+    data.date = adjustedDate.toISOString().split("T")[0];
+
     if (isEditSession)
       editReservation(
         { newCabinData: { ...data }, id: editId },
@@ -202,8 +210,13 @@ function CreateReservationForm({ reservationToEdit = {}, onCloseModal }) {
           ))}
         </Select>
       </FormRow>
-      <FormRow label="Day">
-        <Input type="number" id="day" disabled={isWorking} />
+      <FormRow label="Day" error={errors?.date?.message}>
+        <Input
+          type="date"
+          id="date"
+          disabled={isWorking}
+          {...register("date", { required: "This field is required" })}
+        />
       </FormRow>
 
       <FormRow label="Time" error={errors?.regularPrice?.message}>
