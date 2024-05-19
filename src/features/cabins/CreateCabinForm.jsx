@@ -71,78 +71,17 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
       </FormRow>
 
       <FormRow label="Day">
-        <Input
-          type="number"
-          id="day"
-          disabled={isWorking}
-          // {...register("Day", {
-          //   required: "This field is required",
-          //   min: {
-          //     value: 1,
-          //     message: "Capacity should be at least 1",
-          //   },
-          // })}
-        />
+        <Input type="number" id="day" disabled={isWorking} />
       </FormRow>
 
       <FormRow label="Time" error={errors?.regularPrice?.message}>
-        <Input
-          type="number"
-          id="time"
-          disabled={isWorking}
-          // {...register("regularPrice", {
-          //   required: "This field is required",
-          //   min: {
-          //     value: 1,
-          //     message: "Price should be at least 1",
-          //   },
-          // })}
-        />
+        <Input type="number" id="time" disabled={isWorking} />
       </FormRow>
 
       <FormRow label="Doctor" error={errors?.discount?.message}>
-        <Input
-          type="number"
-          id="doctor"
-          disabled={isWorking}
-          // {...register("discount", {
-          //   required: "This field is required",
-          //   validate: (value) =>
-          //     value <= getValues().regularPrice ||
-          //     "Discount should be less than regular price",
-          // })}
-        />
+        <Input type="number" id="doctor" disabled={isWorking} />
       </FormRow>
-
-      {/* <FormRow
-        label="Description for website"
-        error={errors?.description?.message}
-      >
-        <Textarea
-          type="number"
-          id="description"
-          disabled={isWorking}
-          defaultValue=""
-          {...register("description", {
-            required: "This field is required",
-          })}
-        />
-      </FormRow>
-
-      <FormRow label="cabin photo">
-        <FileInput
-          id="image"
-          disabled={isWorking}
-          accept="image/*"
-          type="file"
-          {...register("image", {
-            required: isEditSession ? false : "This field is required",
-          })}
-        /> */}
-      {/* </FormRow> */}
-
       <FormRow>
-        {/* type is an HTML attribute! */}
         <Button
           variation="secondary"
           type="reset"

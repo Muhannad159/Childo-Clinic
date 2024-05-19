@@ -1,7 +1,8 @@
 import Heading from "../ui/Heading";
 import Row from "../ui/Row";
 import BookingTable from "../features/bookings/BookingTable";
-import AddCabin from "../features/cabins/AddCabin";
+import AddReservation from "../features/bookings/AddReservation";
+
 import BookingTableOperations from "../features/bookings/BookingTableOperations";
 
 function Bookings() {
@@ -13,7 +14,7 @@ function Bookings() {
       </Row>
       <BookingTable />
       <Row>
-        <AddCabin />
+        <AddReservation />
       </Row>
     </>
   );

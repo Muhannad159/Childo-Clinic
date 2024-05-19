@@ -6,10 +6,10 @@ function AddReservation() {
   return (
     <div>
       <Modal>
-        <Modal.Open opens="cabin-form">
+        <Modal.Open opens="reservation-form">
           <Button>Add new reservation</Button>
         </Modal.Open>
-        <Modal.Window name="cabin-form">
+        <Modal.Window name="reservation-form">
           <CreateReservationForm />
         </Modal.Window>
       </Modal>
