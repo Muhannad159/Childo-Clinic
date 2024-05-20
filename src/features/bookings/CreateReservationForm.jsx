@@ -1,3 +1,4 @@
+/* eslint-disable no-inner-declarations */
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 
@@ -11,7 +12,7 @@ import styled, { css } from "styled-components";
 import { useBooking } from "./useBooking";
 import { useEditCabin } from "../cabins/useEditCabin";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const Select = styled.select`
   border: 1px solid var(--color-grey-300);
@@ -117,9 +118,34 @@ export async function getDoctors() {
   }
 }
 
+export async function getSlotsByDoctorId(doctorId, date) {
+  try {
+    const response = await fetch(
+      `http://localhost:5023/api/v1/Slots/doctor/${doctorId}/${date}`,
+      {
+        method: "GET",
+        headers: {
+          Accept: "*/*",
+        },
+      }
+    );
+    console.log("slots data res", response);
+    const user = await response.json();
+    console.log("slots by docid  data", user);
+    if (!response.ok) {
+      console.error("Failed to fetch user dataa:", user.errors[0].message);
+      throw new Error("Failed to fetch user data");
+    }
+    return user;
+  } catch (error) {
+    console.error("Error fetching staff data:", error);
+  }
+}
+
+/////////////////////////
 const doctors = await getDoctors();
 const userData = await getCurrentUserData();
-
+//////////////////////////////////////////////////////////////////////////////////////////////
 function CreateReservationForm({ reservationToEdit = {}, onCloseModal }) {
   const { isCreating, createReservation } = useBooking();
   const { isEditing, editReservation } = useEditCabin();
@@ -132,14 +158,41 @@ function CreateReservationForm({ reservationToEdit = {}, onCloseModal }) {
 
   const isEditSession = Boolean(editId);
 
-  const { register, handleSubmit, reset, getValues, formState } = useForm({
-    defaultValues: isEditSession ? editValues : {},
-  });
+  const { register, handleSubmit, reset, getValues, watch, formState } =
+    useForm({
+      defaultValues: isEditSession ? editValues : {},
+    });
   const { errors } = formState;
 
   console.log("form vals", getValues());
-  const { isDoctorSelected, doctorSelected } = useState(false);
+  // const { isDoctorSelected, doctorSelected } = useState(false);
+  const [timeSlots, setTimeSlots] = useState();
+  const selectedDoctor = watch("doctortoid");
+  const selectedDate = watch("date");
+  const allTimeSlots = ["s1", "s2", "s3", "s4"];
 
+  useEffect(() => {
+    console.log("select doctor", selectedDoctor);
+    console.log("select date", selectedDate);
+
+    if (selectedDoctor && selectedDate) {
+      async function fetchSlots() {
+        const slots = await getSlotsByDoctorId(selectedDoctor, selectedDate);
+        const availableTimeSlots = allTimeSlots.filter(
+          (slot) => !slots.find((timeSlot) => timeSlot.time === slot)
+        );
+        const formattedList = availableTimeSlots.map((item) => ({
+          time: item,
+        }));
+        console.log("slots reserved", slots);
+        console.log("slots available", availableTimeSlots);
+        setTimeSlots(formattedList);
+      }
+      fetchSlots();
+    }
+  }, [selectedDoctor, selectedDate]);
+
+  console.log("yah slotatak", timeSlots);
   function onSubmit(data) {
     const selectedDate = new Date(data.date);
     const adjustedDate = new Date(
@@ -149,6 +202,7 @@ function CreateReservationForm({ reservationToEdit = {}, onCloseModal }) {
     );
     data.date = adjustedDate.toISOString().split("T")[0];
 
+    console.log("form data", data);
     if (isEditSession)
       editReservation(
         { newCabinData: { ...data }, id: editId },
@@ -170,8 +224,6 @@ function CreateReservationForm({ reservationToEdit = {}, onCloseModal }) {
         }
       );
   }
-
-  function handleOnDoctorSelection() {}
 
   function onError(errors) {
     // console.log(errors);
@@ -218,13 +270,21 @@ function CreateReservationForm({ reservationToEdit = {}, onCloseModal }) {
           {...register("date", { required: "This field is required" })}
         />
       </FormRow>
-
-      <FormRow label="Time" error={errors?.regularPrice?.message}>
-        <Input type="number" id="time" disabled={isWorking} />
-      </FormRow>
-
-      <FormRow label="Doctor" error={errors?.discount?.message}>
-        <Input type="number" id="doctor" disabled={isWorking} />
+      <FormRow label="Time">
+        <Select
+          id="time"
+          disabled={isCreating || isEditing || !timeSlots || !timeSlots.length}
+          {...register("time", { required: "This field is required" })}
+        >
+          <option value="">Select your slot time</option>
+          {timeSlots &&
+            timeSlots.length &&
+            timeSlots.map((slot) => (
+              <option key={slot.time} value={slot.time}>
+                {slot.time}
+              </option>
+            ))}
+        </Select>
       </FormRow>
       <FormRow>
         <Button
@@ -235,8 +295,8 @@ function CreateReservationForm({ reservationToEdit = {}, onCloseModal }) {
         >
           Cancel
         </Button>
-        <Button disabled={isWorking}>
-          {isEditSession ? "Edit cabin" : "Create new cabin"}
+        <Button disabled={isWorking} variation="secondary">
+          {isEditSession ? "Edit reservation" : "Create new reservation"}
         </Button>
       </FormRow>
     </Form>
