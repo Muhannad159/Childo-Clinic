@@ -141,7 +141,7 @@ export async function getCurrentUser() {
   const storedToken = localStorage.getItem("token");
 
   const decodedData = decodeJWT(storedToken);
-  console.log("decoded", decodedData);
+  // console.log("decoded", decodedData);
 
   try {
     const response = await fetch(
@@ -153,9 +153,9 @@ export async function getCurrentUser() {
         },
       }
     );
-    console.log("user data res", response);
+    // console.log("user data res", response);
     const user = await response.json();
-    console.log("user data", user);
+    // console.log("user data", user);
     if (!response.ok) {
       console.error("Failed to fetch user dataa:", user.errors[0].message);
       throw new Error("Failed to fetch user data");

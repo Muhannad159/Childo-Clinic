@@ -23,6 +23,7 @@ function CabinTable() {
     filteredCabins = cabins.data.filter((cabin) => cabin.role === "DOCTOR");
   if (filterValue === "NURSE")
     filteredCabins = cabins.data.filter((cabin) => cabin.role === "NURSE");
+  console.log("cabinsssssssss", cabins.data);
 
   return (
     <Menus>

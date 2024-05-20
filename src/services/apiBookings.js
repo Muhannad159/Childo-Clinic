@@ -38,7 +38,36 @@ export async function getBookings({ filter, sortBy, page }) {
   return { data, count };
 }
 
-export async function createBooking({ time, date, nametoid, doctortoid }) {}
+export async function createBooking({ time, date, nametoid, doctortoid }) {
+  try {
+    const requestBody = {
+      time: time,
+      date: date,
+      nametoid: nametoid,
+      doctortoid: doctortoid,
+    };
+    const response = await fetch("http://localhost:5023/api/v1/Slots", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(requestBody),
+    });
+    console.log("slots data res", response);
+    const bookingData = await response.json();
+    console.log("slots book res", bookingData);
+    if (!response.ok) {
+      console.error(
+        "Failed to add new reservation:",
+        bookingData.errors[0].message
+      );
+      throw new Error("Failed to add new reservation");
+    }
+    return bookingData;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}
 
 // Returns all BOOKINGS that are were created after the given date. Useful to get bookings created in the last 30 days, for example.
 export async function getBookingsAfterDate(date) {

@@ -13,6 +13,7 @@ import { useBooking } from "./useBooking";
 import { useEditCabin } from "../cabins/useEditCabin";
 import { useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
+import toast from "react-hot-toast";
 
 const Select = styled.select`
   border: 1px solid var(--color-grey-300);
@@ -64,12 +65,47 @@ export function decodeJWT(token) {
   return decodedToken;
 }
 
+export async function createBooking(data) {
+  try {
+    const requestBody = {
+      doctorId: data.doctortoid,
+      patientId: data.nametoid,
+      time: data.time,
+      date: data.date,
+    };
+
+    console.log("body", data);
+    const response = await fetch("http://localhost:5023/api/v1/Slots", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(requestBody),
+    });
+    console.log("add slot", response);
+    const bookingData = await response.json();
+    console.log("add slot res", bookingData);
+    if (!response.ok) {
+      console.error(
+        "Failed to add new reservation:",
+        bookingData.errors[0].message
+      );
+      toast.error("Failed to Add new reservation");
+      throw new Error("Failed to add new reservation");
+    }
+    toast.success("Reservation Done");
+    return bookingData;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}
+
 export async function getCurrentUserData() {
   // // decode token
   const storedToken = localStorage.getItem("token");
 
   const decodedData = decodeJWT(storedToken);
-  console.log("decoded", decodedData);
+  // console.log("decoded", decodedData);
 
   try {
     const response = await fetch(
@@ -81,9 +117,9 @@ export async function getCurrentUserData() {
         },
       }
     );
-    console.log("user data res", response);
+    // console.log("user data res", response);
     const user = await response.json();
-    console.log("user data", user);
+    // console.log("user data", user);
     if (!response.ok) {
       console.error("Failed to fetch user dataa:", user.errors[0].message);
       throw new Error("Failed to fetch user data");
@@ -105,9 +141,9 @@ export async function getDoctors() {
         },
       }
     );
-    console.log("doc data res", response);
+    // console.log("doc data res", response);
     const user = await response.json();
-    console.log("doc data", user);
+    // console.log("doc data", user);
     if (!response.ok) {
       console.error("Failed to fetch user dataa:", user.errors[0].message);
       throw new Error("Failed to fetch user data");
@@ -129,9 +165,9 @@ export async function getSlotsByDoctorId(doctorId, date) {
         },
       }
     );
-    console.log("slots data res", response);
+    // console.log("slots data res", response);
     const user = await response.json();
-    console.log("slots by docid  data", user);
+    // console.log("slots by docid  data", user);
     if (!response.ok) {
       console.error("Failed to fetch user dataa:", user.errors[0].message);
       throw new Error("Failed to fetch user data");
@@ -150,8 +186,8 @@ function CreateReservationForm({ reservationToEdit = {}, onCloseModal }) {
   const { isCreating, createReservation } = useBooking();
   const { isEditing, editReservation } = useEditCabin();
 
-  console.log("available doctors", doctors.data);
-  console.log("User data", userData);
+  // console.log("available doctors", doctors.data);
+  // console.log("User data", userData);
   const isWorking = isCreating || isEditing;
 
   const { id: editId, ...editValues } = reservationToEdit;
@@ -194,35 +230,10 @@ function CreateReservationForm({ reservationToEdit = {}, onCloseModal }) {
 
   console.log("yah slotatak", timeSlots);
   function onSubmit(data) {
-    const selectedDate = new Date(data.date);
-    const adjustedDate = new Date(
-      2024,
-      selectedDate.getMonth(),
-      selectedDate.getDate()
-    );
-    data.date = adjustedDate.toISOString().split("T")[0];
-
     console.log("form data", data);
-    if (isEditSession)
-      editReservation(
-        { newCabinData: { ...data }, id: editId },
-        {
-          onSuccess: () => {
-            reset();
-            onCloseModal?.();
-          },
-        }
-      );
-    else
-      createReservation(
-        { ...data },
-        {
-          onSuccess: () => {
-            reset();
-            onCloseModal?.();
-          },
-        }
-      );
+    createBooking(data);
+    reset();
+    onCloseModal?.();
   }
 
   function onError(errors) {

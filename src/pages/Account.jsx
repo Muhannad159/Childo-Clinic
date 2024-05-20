@@ -1,32 +1,43 @@
-import { useState, useEffect } from 'react';
-import styled from 'styled-components';
-import Heading from '../ui/Heading';
-import Row from '../ui/Row';
-import UpdateUserDataForm from './../features/authentication/UpdateUserDataForm';
-import UpdatePasswordForm from './../features/authentication/UpdatePasswordForm';
-import { useUser } from '../features/authentication/useUser';
-import AddPatientForm from './AddPatientForm'; // Import the AddPatientForm component
+import { useState, useEffect } from "react";
+import styled from "styled-components";
+import Heading from "../ui/Heading";
+import Row from "../ui/Row";
+import UpdateUserDataForm from "./../features/authentication/UpdateUserDataForm";
+import UpdatePasswordForm from "./../features/authentication/UpdatePasswordForm";
+import { useUser } from "../features/authentication/useUser";
+import AddPatientForm from "./AddPatientForm"; // Import the AddPatientForm component
+import { css } from "styled-components";
 
 export async function getCurrentUserData(id) {
   try {
     const response = await fetch(`http://localhost:5023/api/v1/User/${id}`, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        Accept: '*/*',
+        Accept: "*/*",
       },
     });
-    console.log('user data res', response);
+    console.log("user data res", response);
     const user = await response.json();
-    console.log('user data', user);
+    console.log("user data", user);
     if (!response.ok) {
-      console.error('Failed to fetch user dataa:', user.errors[0].message);
-      throw new Error('Failed to fetch user data');
+      console.error("Failed to fetch user dataa:", user.errors[0].message);
+      throw new Error("Failed to fetch user data");
     }
     return user;
   } catch (error) {
-    console.error('Error fetching staff data:', error);
+    console.error("Error fetching staff data:", error);
   }
 }
+const Modal = styled.div`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 2rem;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+`;
 
 const StyledTable = styled.table`
   width: 100%;
@@ -64,6 +75,65 @@ const StyledTbody = styled.tbody`
   margin: 0.4rem 0;
 `;
 
+const sizes = {
+  small: css`
+    font-size: 1.2rem;
+    padding: 0.4rem 0.8rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    text-align: center;
+  `,
+  medium: css`
+    font-size: 1.4rem;
+    padding: 1.2rem 1.6rem;
+    font-weight: 500;
+  `,
+  large: css`
+    font-size: 1.6rem;
+    padding: 1.2rem 2.4rem;
+    font-weight: 500;
+  `,
+};
+
+const variations = {
+  primary: css`
+    color: var(--color-brand-900);
+    background-color: var(--color-indigo-700);
+
+    &:hover {
+      background-color: var(--color-brand-900);
+      color: var(--color-indigo-700);
+    }
+  `,
+  secondary: css`
+    color: var(--color-grey-100);
+    background: var(--color-brand-900);
+    border: 1px solid var(--color-grey-200);
+
+    &:hover {
+      color: var(--color-brand-900);
+      background-color: var(--color-grey-50);
+    }
+  `,
+  danger: css`
+    color: var(--color-red-100);
+    background-color: var(--color-red-700);
+
+    &:hover {
+      background-color: var(--color-red-800);
+    }
+  `,
+};
+
+const Button = styled.button`
+  border: none;
+  border-radius: var(--border-radius-sm);
+  box-shadow: var(--shadow-sm);
+
+  ${(props) => sizes[props.size]}
+  ${(props) => variations[props.variation]}
+`;
+
 function Account() {
   const { user } = useUser();
   const [userData, setUserData] = useState(null);
@@ -80,17 +150,17 @@ function Account() {
 
   const handleAddPatient = async (patientData) => {
     const newPatientData = { ...patientData, userId: user.staffId };
-    console.log('rayh post data', newPatientData);
+    console.log("rayh post data", newPatientData);
     // await axios.post("", newPatientData);
-    const response = await fetch('http://localhost:5023/api/v1/Patient', {
-      method: 'POST',
+    const response = await fetch("http://localhost:5023/api/v1/Patient", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(newPatientData),
     });
     const data = await response.json();
-    console.log('bayz', data);
+    console.log("bayz", data);
     const updatedUserData = await getCurrentUserData(user.staffId);
     setUserData(updatedUserData);
     setIsModalOpen(false);
@@ -98,21 +168,27 @@ function Account() {
 
   return (
     <>
-      <Heading as='h1'>
+      <Heading as="h1">
         {user.firstName} {user.lastName} - {user.role}
       </Heading>
 
       <Row>
-        <Heading as='h3'>Update your data</Heading>
+        <Heading as="h3">Update your data</Heading>
         <UpdateUserDataForm />
       </Row>
 
       <Row>
-        <Heading as='h3'>Update your password</Heading>
+        <Heading as="h3">Update your password</Heading>
         <UpdatePasswordForm />
       </Row>
 
-      <button onClick={() => setIsModalOpen(true)}>Add New Patient</button>
+      <Button
+        variation="secondary"
+        size="small"
+        onClick={() => setIsModalOpen(true)}
+      >
+        Add New Patient
+      </Button>
 
       <StyledTable>
         <StyledThead>
@@ -138,7 +214,7 @@ function Account() {
       {isModalOpen && (
         <Modal>
           <AddPatientForm onSubmit={handleAddPatient} />
-          <button onClick={() => setIsModalOpen(false)}>Close</button>
+          <Button onClick={() => setIsModalOpen(false)}>Close</Button>
         </Modal>
       )}
     </>
