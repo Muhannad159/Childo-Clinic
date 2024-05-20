@@ -123,7 +123,11 @@ export async function login({ email, password }) {
     console.log("data", responseData);
     const decodedToken = decodeJWT(responseData.token);
     console.log("decoded", decodedToken);
-    // getCurrentUser("auth");
+
+    localStorage.setItem("role", decodedToken.role);
+    localStorage.setItem("usrid", decodedToken.id);
+    console.log("role", decodedToken.role);
+
     if (!response.ok) {
       console.error("Failed to sign in:", responseData.errors[0].message);
       //  getCurrentUser("not-auth");
@@ -141,7 +145,6 @@ export async function getCurrentUser() {
   const storedToken = localStorage.getItem("token");
 
   const decodedData = decodeJWT(storedToken);
-  // console.log("decoded", decodedData);
 
   try {
     const response = await fetch(
@@ -168,6 +171,9 @@ export async function getCurrentUser() {
 
 export async function Logout() {
   localStorage.removeItem("token");
+  localStorage.removeItem("role");
+  localStorage.removeItem("usrid");
+  window.location.reload();
 }
 
 export async function updateCurrentUser({

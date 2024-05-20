@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
-import { useState } from 'react';
-import styled from 'styled-components';
+import { useState } from "react";
+import styled from "styled-components";
 
 // Styled components
 const Form = styled.form`
@@ -11,7 +11,7 @@ const Form = styled.form`
   padding: 2rem;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  max-width: 800px;
+  width: 500px;
   margin: 0 auto;
 `;
 
@@ -42,22 +42,22 @@ const Button = styled.button`
   padding: 0.8rem 1.2rem;
   border: none;
   border-radius: 4px;
-  background-color: var(--color-primary);
-  color: white;
-  font-size: 1rem;
+  background-color: #d8d4d4;
+  color: #0e0e5f;
+  font-size: 2rem;
   cursor: pointer;
   &:hover {
-    background-color: var(--color-primary-dark);
+    background-color: #aeadad;
   }
 `;
 
 function AddPatientForm({ onSubmit }) {
   const [patientData, setPatientData] = useState({
-    firstName: '',
-    lastName: '',
-    age: '',
-    gender: '',
-    userRelation: '',
+    firstName: "",
+    lastName: "",
+    age: "",
+    gender: "",
+    userRelation: "",
   });
 
   const handleChange = (e) => {
@@ -78,8 +78,8 @@ function AddPatientForm({ onSubmit }) {
       <FormGroup>
         <Label>First Name:</Label>
         <Input
-          type='text'
-          name='firstName'
+          type="text"
+          name="firstName"
           value={patientData.firstName}
           onChange={handleChange}
           required
@@ -88,8 +88,8 @@ function AddPatientForm({ onSubmit }) {
       <FormGroup>
         <Label>Last Name:</Label>
         <Input
-          type='text'
-          name='lastName'
+          type="text"
+          name="lastName"
           value={patientData.lastName}
           onChange={handleChange}
           required
@@ -98,8 +98,8 @@ function AddPatientForm({ onSubmit }) {
       <FormGroup>
         <Label>Age:</Label>
         <Input
-          type='number'
-          name='age'
+          type="number"
+          name="age"
           value={patientData.age}
           onChange={handleChange}
           required
@@ -108,8 +108,8 @@ function AddPatientForm({ onSubmit }) {
       <FormGroup>
         <Label>Gender:</Label>
         <Input
-          type='text'
-          name='gender'
+          type="text"
+          name="gender"
           value={patientData.gender}
           onChange={handleChange}
           required
@@ -118,14 +118,16 @@ function AddPatientForm({ onSubmit }) {
       <FormGroup>
         <Label>Relation:</Label>
         <Input
-          type='text'
-          name='userRelation'
+          type="text"
+          name="userRelation"
           value={patientData.userRelation}
           onChange={handleChange}
           required
         />
       </FormGroup>
-      <Button type='submit'>Add Patient</Button>
+      <Button type="submit" variation="primary">
+        Add Patient
+      </Button>
     </Form>
   );
 }

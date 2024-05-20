@@ -103,9 +103,8 @@ export async function createBooking(data) {
 export async function getCurrentUserData() {
   // // decode token
   const storedToken = localStorage.getItem("token");
-
+  if (!storedToken) return;
   const decodedData = decodeJWT(storedToken);
-  // console.log("decoded", decodedData);
 
   try {
     const response = await fetch(

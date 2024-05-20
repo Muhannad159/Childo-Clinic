@@ -59,11 +59,12 @@ const StyledNavLink = styled(NavLink)`
 function MainNav() {
   const { user } = useUser();
   let userRole = user.role;
-  console.log("role:", userRole);
+  // console.log("role:", userRole);
   // Check if the user is an admin or super admin
   let isAdmin = userRole === "ADMIN";
   let isSuperAdmin = userRole === "SUPERADMIN";
   let isUser = userRole === "USER";
+  let isDoctor = userRole === "DOCTOR";
   // Conditionally render the navigation based on user role
   if (isAdmin || isSuperAdmin) {
     return (
@@ -97,7 +98,7 @@ function MainNav() {
         </NavList>
       </nav>
     );
-  } else if (isUser) {
+  } else if (isUser || isDoctor) {
     return (
       <nav>
         <NavList>
