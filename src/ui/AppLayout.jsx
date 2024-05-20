@@ -2,7 +2,9 @@ import { Outlet } from "react-router-dom";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 import { styled } from "styled-components";
-
+import ChatGPT from "../features/chatbot/ChatGPT";
+import { FaRobot } from "react-icons/fa";
+import { useState } from "react";
 const StyledAppLayout = styled.div`
   display: grid;
   grid-template-columns: 26rem 1fr;
@@ -25,6 +27,16 @@ const Container = styled.div`
 `;
 
 function AppLayout() {
+  const [isChatOpen, setIsChatOpen] = useState(false);
+
+  const handleOpenChat = () => {
+    setIsChatOpen(true);
+  };
+
+  const handleCloseChat = () => {
+    setIsChatOpen(false);
+  };
+
   return (
     <StyledAppLayout>
       <Header />
@@ -34,6 +46,14 @@ function AppLayout() {
           <Outlet />
         </Container>
       </Main>
+      {isChatOpen && <ChatGPT onClose={handleCloseChat} />}
+      {!isChatOpen && (
+        <div className="chat-button-container">
+          <button className="chat-button" onClick={handleOpenChat}>
+            <FaRobot />
+          </button>
+        </div>
+      )}
     </StyledAppLayout>
   );
 }
