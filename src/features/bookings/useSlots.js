@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { useQuery } from "@tanstack/react-query";
-import { createBooking } from "../../services/apiBookings";
+import { getBooking } from "../../services/apiBookings";
 import { useParams } from "react-router-dom";
 
 export function useBooking() {
@@ -11,7 +11,7 @@ export function useBooking() {
     data: booking,
   } = useQuery({
     queryKey: ["booking", bookingId],
-    queryFn: () => createBooking(),
+    queryFn: () => getBooking(bookingId),
     retry: false,
   });
   return { booking, error, isLoading };
