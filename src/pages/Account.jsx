@@ -1,31 +1,32 @@
-import { useState, useEffect } from "react";
-import styled from "styled-components";
-import Heading from "../ui/Heading";
-import Row from "../ui/Row";
-import UpdateUserDataForm from "./../features/authentication/UpdateUserDataForm";
-import UpdatePasswordForm from "./../features/authentication/UpdatePasswordForm";
-import { useUser } from "../features/authentication/useUser";
-import AddPatientForm from "./AddPatientForm"; // Import the AddPatientForm component
-import { css } from "styled-components";
+import { useState, useEffect } from 'react';
+import styled from 'styled-components';
+import Heading from '../ui/Heading';
+import Row from '../ui/Row';
+import UpdateUserDataForm from './../features/authentication/UpdateUserDataForm';
+import UpdatePasswordForm from './../features/authentication/UpdatePasswordForm';
+import { useUser } from '../features/authentication/useUser';
+import AddPatientForm from './AddPatientForm'; // Import the AddPatientForm component
+import { css } from 'styled-components';
+import { is } from 'date-fns/locale';
 
 export async function getCurrentUserData(id) {
   try {
     const response = await fetch(`http://localhost:5023/api/v1/User/${id}`, {
-      method: "GET",
+      method: 'GET',
       headers: {
-        Accept: "*/*",
+        Accept: '*/*',
       },
     });
-    console.log("user data res", response);
+    console.log('user data res', response);
     const user = await response.json();
-    console.log("user data", user);
+    console.log('user data', user);
     if (!response.ok) {
-      console.error("Failed to fetch user dataa:", user.errors[0].message);
-      throw new Error("Failed to fetch user data");
+      console.error('Failed to fetch user dataa:', user.errors[0].message);
+      throw new Error('Failed to fetch user data');
     }
     return user;
   } catch (error) {
-    console.error("Error fetching staff data:", error);
+    console.error('Error fetching staff data:', error);
   }
 }
 const Modal = styled.div`
@@ -129,6 +130,7 @@ const Button = styled.button`
   border: none;
   border-radius: var(--border-radius-sm);
   box-shadow: var(--shadow-sm);
+  max-width: 350px;
 
   ${(props) => sizes[props.size]}
   ${(props) => variations[props.variation]}
@@ -136,6 +138,12 @@ const Button = styled.button`
 
 function Account() {
   const { user } = useUser();
+  let userRole = user.role;
+  // Check if the user is an admin or super admin
+  let isAdmin = userRole === 'ADMIN';
+  let isSuperAdmin = userRole === 'SUPERADMIN';
+  let isUser = userRole === 'USER';
+  let isDoctor = userRole === 'DOCTOR';
   const [userData, setUserData] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -150,75 +158,95 @@ function Account() {
 
   const handleAddPatient = async (patientData) => {
     const newPatientData = { ...patientData, userId: user.staffId };
-    console.log("rayh post data", newPatientData);
+    console.log('rayh post data', newPatientData);
     // await axios.post("", newPatientData);
-    const response = await fetch("http://localhost:5023/api/v1/Patient", {
-      method: "POST",
+    const response = await fetch('http://localhost:5023/api/v1/Patient', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(newPatientData),
     });
     const data = await response.json();
-    console.log("bayz", data);
+    console.log('bayz', data);
     const updatedUserData = await getCurrentUserData(user.staffId);
     setUserData(updatedUserData);
     setIsModalOpen(false);
   };
 
-  return (
-    <>
-      <Heading as="h1">
-        {user.firstName} {user.lastName} - {user.role}
-      </Heading>
+  if (isUser) {
+    return (
+      <>
+        <Heading as='h1'>
+          {user.firstName} {user.lastName} - {user.role}
+        </Heading>
 
-      <Row>
-        <Heading as="h3">Update your data</Heading>
-        <UpdateUserDataForm />
-      </Row>
+        <Button
+          variation='secondary'
+          size='medium'
+          onClick={() => setIsModalOpen(true)}
+        >
+          Add New Patient
+        </Button>
 
-      <Row>
-        <Heading as="h3">Update your password</Heading>
-        <UpdatePasswordForm />
-      </Row>
-
-      <Button
-        variation="secondary"
-        size="small"
-        onClick={() => setIsModalOpen(true)}
-      >
-        Add New Patient
-      </Button>
-
-      <StyledTable>
-        <StyledThead>
-          <StyledTr>
-            <StyledTh>First Name</StyledTh>
-            <StyledTh>Last Name</StyledTh>
-            <StyledTh>Age</StyledTh>
-            <StyledTh>Relation</StyledTh>
-          </StyledTr>
-        </StyledThead>
-        <StyledTbody>
-          {userData?.patients.map((patient) => (
-            <StyledTr key={patient.patientId}>
-              <StyledTd>{patient.firstName}</StyledTd>
-              <StyledTd>{patient.lastName}</StyledTd>
-              <StyledTd>{patient.age}</StyledTd>
-              <StyledTd>{patient.userRelation}</StyledTd>
+        <StyledTable>
+          <StyledThead>
+            <StyledTr>
+              <StyledTh>First Name</StyledTh>
+              <StyledTh>Last Name</StyledTh>
+              <StyledTh>Age</StyledTh>
+              <StyledTh>Relation</StyledTh>
             </StyledTr>
-          ))}
-        </StyledTbody>
-      </StyledTable>
+          </StyledThead>
+          <StyledTbody>
+            {userData?.patients.map((patient) => (
+              <StyledTr key={patient.patientId}>
+                <StyledTd>{patient.firstName}</StyledTd>
+                <StyledTd>{patient.lastName}</StyledTd>
+                <StyledTd>{patient.age}</StyledTd>
+                <StyledTd>{patient.userRelation}</StyledTd>
+              </StyledTr>
+            ))}
+          </StyledTbody>
+        </StyledTable>
 
-      {isModalOpen && (
-        <Modal>
-          <AddPatientForm onSubmit={handleAddPatient} />
-          <Button onClick={() => setIsModalOpen(false)}>Close</Button>
-        </Modal>
-      )}
-    </>
-  );
+        {isModalOpen && (
+          <Modal>
+            <AddPatientForm onSubmit={handleAddPatient} />
+            <Button onClick={() => setIsModalOpen(false)}>Close</Button>
+          </Modal>
+        )}
+        <Row>
+          <Heading as='h3'>Update your data</Heading>
+          <UpdateUserDataForm />
+        </Row>
+
+        <Row>
+          <Heading as='h3'>Update your password</Heading>
+          <UpdatePasswordForm />
+        </Row>
+      </>
+    );
+  }
+  if (isAdmin || isSuperAdmin || isDoctor) {
+    return (
+      <>
+        <Heading as='h1'>
+          {user.firstName} {user.lastName} - {user.role}
+        </Heading>
+
+        <Row>
+          <Heading as='h3'>Update your data</Heading>
+          <UpdateUserDataForm />
+        </Row>
+
+        <Row>
+          <Heading as='h3'>Update your password</Heading>
+          <UpdatePasswordForm />
+        </Row>
+      </>
+    );
+  }
 }
 
 export default Account;
