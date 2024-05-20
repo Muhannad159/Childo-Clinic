@@ -1,54 +1,62 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
+// import {
+//   HiOutlineBanknotes,
+//   HiOutlineBriefcase,
+//   HiOutlineCalendarDays,
+//   HiOutlineChartBar,
+// } from 'react-icons/hi2';
+import Stat from './Stat';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  HiOutlineBanknotes,
-  HiOutlineBriefcase,
-  HiOutlineCalendarDays,
-  HiOutlineChartBar,
-} from "react-icons/hi2";
-import Stat from "./Stat";
-import { formatCurrency } from "../../utils/helpers";
-function Stats({ bookings, confirmStays, numDays, cabinCount }) {
+  faStethoscope,
+  faUserDoctor,
+  faUserNurse,
+  faUser,
+} from '@fortawesome/free-solid-svg-icons';
+function Stats({ cabins }) {
   // 1.
-  const numBookings = bookings.length;
+  const numStaff = cabins.data.length;
+  const numDoctors = cabins.data.filter(
+    (cabin) => cabin.role === 'DOCTOR'
+  ).length;
+  const numNurses = cabins.data.filter(
+    (cabin) => cabin.role === 'NURSE'
+  ).length;
+  const numAdmins = cabins.data.filter(
+    (cabin) => cabin.role === 'ADMIN'
+  ).length;
 
   //2.
-  const sales = bookings.reduce((acc, cur) => acc + cur.totalPrice, 0);
 
   // 3.
 
-  const checkins = confirmStays.length;
-
   // 4.
-  const occupation =
-    confirmStays.reduce((acc, cur) => acc + cur.numNights, 0) /
-    (numDays * cabinCount);
-
   return (
     <>
       <Stat
-        title="Reservations"
-        color="blue"
-        icon={<HiOutlineBriefcase />}
-        value={numBookings}
+        title='Staff'
+        color='blue'
+        icon={<FontAwesomeIcon icon={faUser} />}
+        value={numStaff}
       />
       <Stat
-        title="sales"
-        color="green"
-        icon={<HiOutlineBanknotes />}
-        value={formatCurrency(sales)}
+        title='Doctors'
+        color='green'
+        icon={<FontAwesomeIcon icon={faUserDoctor} />}
+        value={numDoctors}
       />
       <Stat
-        title="Visits"
-        color="indigo"
-        icon={<HiOutlineCalendarDays />}
-        value={checkins}
+        title='Nurses'
+        color='indigo'
+        icon={<FontAwesomeIcon icon={faUserNurse} />}
+        value={numNurses}
       />
       <Stat
-        title="Occupancy rate"
-        color="yellow"
-        icon={<HiOutlineChartBar />}
-        value={Math.round(occupation * 100) + "%"}
+        title='Admins'
+        color='yellow'
+        icon={<FontAwesomeIcon icon={faUser} />}
+        value={numAdmins}
       />
     </>
   );
