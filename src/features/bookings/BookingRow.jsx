@@ -14,12 +14,14 @@ import {
   HiArrowUpOnSquare,
   HiEye,
   HiTrash,
+  HiPlus,
 } from "react-icons/hi2";
 import { useNavigate } from "react-router-dom";
 import { useCheckout } from "../check-in-out/useCheckout";
 import Modal from "../../ui/Modal";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 import { useDeleteBooking } from "./useDeleteBooking";
+import { useState } from "react";
 
 const Cabin = styled.div`
   font-size: 1.6rem;
@@ -48,6 +50,34 @@ const Amount = styled.div`
   font-weight: 500;
 `;
 
+export async function updateSlotStatus(id, state) {
+  try {
+    const response = await fetch(`http://localhost:5023/api/v1/Slots/${id}`, {
+      method: "PATCH",
+      headers: {
+        Accept: "*/*",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        status: "pending",
+        progressNotes: state,
+      }),
+    });
+
+    console.log("slot patch:", response);
+    const result = await response.json();
+    console.log("slot patch data:", result);
+
+    if (!response.ok) {
+      console.error("Failed to update slot status:", result.errors[0].message);
+      throw new Error("Failed to update slot status");
+    }
+    return result;
+  } catch (error) {
+    console.error("Error updating slot status:", error);
+  }
+}
+
 function BookingRow({
   booking: {
     PatientName: PatientName,
@@ -61,6 +91,8 @@ function BookingRow({
   const navigate = useNavigate();
   const { checkout, isCheckingOut } = useCheckout();
   const { isLoading: isDeletingBooking, deleteBooking } = useDeleteBooking();
+  const [newProgressNote, setNewProgressNote] = useState("");
+  const [progressNoteId, setProgressNoteId] = useState("");
   let role = localStorage.getItem("role");
   console.log("role", role);
   const statusToTagName = {
@@ -69,47 +101,53 @@ function BookingRow({
     "checked-out": "silver",
   };
 
+  const handleAddProgressNote = (id) => {
+    console.log("New Progress Note:", newProgressNote);
+    console.log("ya id", id);
+    updateSlotStatus(progressNoteId, newProgressNote);
+    window.location.reload();
+  };
   return (
     <Table.Row>
       <Cabin>{PatientName}</Cabin>
 
-      <Stacked>
-        <span>{DoctorName}</span>
-      </Stacked>
+      <span>{DoctorName}</span>
 
-      <Stacked>
-        <span>{date}</span>
-      </Stacked>
-      <Stacked>
-        <span>{time}</span>
-      </Stacked>
-      <Stacked>
-        <span>{progressNote}</span>
-      </Stacked>
+      <span>{date}</span>
+
+      <span>{time}</span>
+
+      <span>{progressNote}</span>
+
       {
         <Modal>
           <Menus.Menu>
             <Menus.Toggle id={id} />
             <Menus.List id={id}>
-              <Menus.Button
-                icon={<HiEye />}
-                onClick={() => navigate(`/bookings/${id}`)}
-              >
-                See Details
-              </Menus.Button>
-
-              <Modal.Open opens="delete">
-                <Menus.Button icon={<HiTrash />}>Delete</Menus.Button>
+              <Modal.Open opens="addProgressNote">
+                <Menus.Button icon={<HiPlus />}>Add Progress Note</Menus.Button>
               </Modal.Open>
             </Menus.List>
           </Menus.Menu>
 
-          <Modal.Window name="delete">
-            <ConfirmDelete
-              resourceName="booking"
-              disabled={isDeletingBooking}
-              onConfirm={() => deleteBooking(id)}
-            />
+          <Modal.Window name="addProgressNote">
+            <form
+              onSubmit={(e) => {
+                handleAddProgressNote();
+                e.preventDefault();
+              }}
+            >
+              <h3>Add Progress Note</h3>
+              <textarea
+                value={newProgressNote}
+                onChange={(e) => setNewProgressNote(e.target.value)}
+                rows="4"
+                cols="50"
+              />
+              <button type="submit" onClick={() => setProgressNoteId(id)}>
+                Save
+              </button>
+            </form>
           </Modal.Window>
         </Modal>
       }

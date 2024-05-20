@@ -281,7 +281,7 @@ function BookingTable() {
   return (
     <>
       <Menus>
-        <Table columns="1.4fr 1.4fr 1fr 0.6fr 1.8fr">
+        <Table columns="1.4fr 1.4fr 1fr 0.6fr 0.8fr 0.4fr">
           <Table.Header>
             <div>Patient Name</div>
             <div>Doctor Name</div>
@@ -296,9 +296,6 @@ function BookingTable() {
               <BookingRow key={allReservations.id} booking={booking} />
             )}
           />
-          {/* <Table.Footer>
-          <Pagination count={count} />
-        </Table.Footer> */}
         </Table>
       </Menus>
     </>

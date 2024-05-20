@@ -1,19 +1,19 @@
-import styled, { css } from 'styled-components';
+import styled, { css } from "styled-components";
 
 const Form = styled.form`
   ${(props) =>
-    props.type === 'regular' &&
+    props.type === "regular" &&
     css`
       padding: 2.4rem 4rem;
 
       /* Box */
-      background-color: #28a8d2;
+      background-color: ##4f46e5;
       border: 1px solid var(--color-grey-100);
       border-radius: var(--border-radius-md);
     `}
 
   ${(props) =>
-    props.type === 'modal' &&
+    props.type === "modal" &&
     css`
       width: 80rem;
     `}
@@ -23,7 +23,7 @@ const Form = styled.form`
 `;
 
 Form.defaultProps = {
-  type: 'regular',
+  type: "regular",
 };
 
 export default Form;
