@@ -10,10 +10,11 @@ import { useCabins } from "../cabins/useCabins";
 // import TodayActivity from "../check-in-out/TodayActivity";
 
 const StyledDashboardLayout = styled.div`
-  display: grid;
+  display: flex;
+  justify-content: flex-start;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-template-rows: auto 34rem auto;
-  gap: 2.4rem;
+  gap: 8.2rem;
 `;
 
 function DashboardLayout() {

@@ -119,7 +119,7 @@ function BookingRow({
 
       <span>{progressNote}</span>
 
-      {
+      {role === "DOCTOR" && (
         <Modal>
           <Menus.Menu>
             <Menus.Toggle id={id} />
@@ -150,7 +150,7 @@ function BookingRow({
             </form>
           </Modal.Window>
         </Modal>
-      }
+      )}
     </Table.Row>
   );
 }
