@@ -107,6 +107,20 @@ function BookingRow({
     updateSlotStatus(progressNoteId, newProgressNote);
     window.location.reload();
   };
+  const getTimeRange = (time) => {
+    switch (time) {
+      case "s1":
+        return "8:00 ~ 8:30 PM";
+      case "s2":
+        return "8:30 ~ 9:00 PM";
+      case "s3":
+        return "9:00 ~ 9:30 PM";
+      case "s4":
+        return "9:30 ~ 10:00 PM";
+      default:
+        return "Invalid time value";
+    }
+  };
   return (
     <Table.Row>
       <Cabin>{PatientName}</Cabin>
@@ -115,7 +129,7 @@ function BookingRow({
 
       <span>{date}</span>
 
-      <span>{time}</span>
+      <span>{getTimeRange(time)}</span>
 
       <span>{progressNote}</span>
 
