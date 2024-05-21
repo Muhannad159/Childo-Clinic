@@ -33,7 +33,7 @@ const variations = {
   `,
   secondary: css`
     color: var(--color-grey-100);
-    background: var(--color-brand-900);
+    background: var(--color-indigo-700);
     border: 1px solid var(--color-grey-200);
 
     &:hover {
