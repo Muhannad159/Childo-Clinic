@@ -231,6 +231,7 @@ if (role === "USER") {
   }
 } else if (role === "ADMIN" || role === "SUPERADMIN") {
   allReservations = await getAllReservations();
+  console.log("all res", allReservations);
   for (let i = 0; i < allReservations.length; i++) {
     let reservation = allReservations[i];
     let currentDoctorId = reservation.doctorId;

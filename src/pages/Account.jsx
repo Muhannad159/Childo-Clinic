@@ -29,6 +29,28 @@ export async function getCurrentUserData(id) {
     console.error("Error fetching staff data:", error);
   }
 }
+
+export async function getCurrentStaffData(id) {
+  try {
+    const response = await fetch(`http://localhost:5023/api/v1/Staff/${id}`, {
+      method: "GET",
+      headers: {
+        Accept: "*/*",
+      },
+    });
+    console.log("user data res", response);
+    const user = await response.json();
+    console.log("user data", user);
+    if (!response.ok) {
+      console.error("Failed to fetch user dataa:", user.errors[0].message);
+      throw new Error("Failed to fetch user data");
+    }
+    return user;
+  } catch (error) {
+    console.error("Error fetching staff data:", error);
+  }
+}
+
 const Modal = styled.div`
   position: fixed;
   top: 50%;
@@ -153,7 +175,12 @@ function Account() {
 
   useEffect(() => {
     const fetchUserData = async () => {
-      const data = await getCurrentUserData(user.staffId);
+      let data;
+      if (isUser) {
+        data = await getCurrentUserData(user.staffId);
+      } else {
+        data = await getCurrentStaffData(user.staffId);
+      }
       setUserData(data);
     };
 

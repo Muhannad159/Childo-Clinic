@@ -129,6 +129,35 @@ export async function getCurrentUserData() {
   }
 }
 
+export async function getCurrentStaffData() {
+  // // decode token
+  const storedToken = localStorage.getItem("token");
+  if (!storedToken) return;
+  const decodedData = decodeJWT(storedToken);
+
+  try {
+    const response = await fetch(
+      `http://localhost:5023/api/v1/Staff/${decodedData.id}`,
+      {
+        method: "GET",
+        headers: {
+          Accept: "*/*",
+        },
+      }
+    );
+    // console.log("user data res", response);
+    const user = await response.json();
+    // console.log("user data", user);
+    if (!response.ok) {
+      console.error("Failed to fetch user dataa:", user.errors[0].message);
+      throw new Error("Failed to fetch user data");
+    }
+    return user;
+  } catch (error) {
+    console.error("Error fetching staff data:", error);
+  }
+}
+
 export async function getDoctors() {
   try {
     const response = await fetch(
@@ -178,8 +207,14 @@ export async function getSlotsByDoctorId(doctorId, date) {
 }
 
 /////////////////////////
+let role = localStorage.getItem("role");
 const doctors = await getDoctors();
-const userData = await getCurrentUserData();
+let userData;
+if (role == "USER") {
+  userData = await getCurrentUserData();
+} else {
+  userData = await getCurrentStaffData();
+}
 //////////////////////////////////////////////////////////////////////////////////////////////
 function CreateReservationForm({ reservationToEdit = {}, onCloseModal }) {
   const { isCreating, createReservation } = useBooking();
