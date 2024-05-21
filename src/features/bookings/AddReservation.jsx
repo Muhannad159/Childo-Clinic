@@ -7,7 +7,7 @@ function AddReservation() {
     <div>
       <Modal>
         <Modal.Open opens="reservation-form">
-          <Button>Add new reservation</Button>
+          <Button variation="secondary">Add new reservation</Button>
         </Modal.Open>
         <Modal.Window name="reservation-form">
           <CreateReservationForm />
