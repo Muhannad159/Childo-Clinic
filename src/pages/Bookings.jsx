@@ -4,15 +4,15 @@ import BookingTable from "../features/bookings/BookingTable";
 import AddReservation from "../features/bookings/AddReservation";
 
 function Bookings() {
+  let role = localStorage.getItem("role");
   return (
     <>
       <Row type="horizontal">
         <Heading as="h1">All Reservations</Heading>
       </Row>
       <BookingTable />
-      <Row>
-        <AddReservation />
-      </Row>
+
+      <Row>{role === "USER" && <AddReservation />}</Row>
     </>
   );
 }
