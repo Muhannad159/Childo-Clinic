@@ -8,12 +8,12 @@ The Pediatric Clinic Management System is a comprehensive web-based platform des
 
 ## Features
 1- Dashboard
-   | Dashboard Light | Dashboard Dark |  
+   | Dashboard Dark | Dashboard Light |  
    | :----------------------------: | :-----------------------------: |
    | ![](https://github.com/user-attachments/assets/ac20da06-69ee-4407-94e4-c749830e339c) | ![](https://github.com/user-attachments/assets/56a2bd6f-a171-4151-a96e-f79b7e4355fe) |
 
 2- Reservations
-   | Reservations Light | Reservations Dark |  
+   | Landing Page | Reservations Dark |  
    | :----------------------------: | :-----------------------------: |
    | ![](https://github.com/user-attachments/assets/b04ed353-cb1a-410d-abb8-1489638fbd85) | ![](https://github.com/user-attachments/assets/5ccbbaf9-56c3-43c3-b4ed-92e6adaf7f71) |
 
