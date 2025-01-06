@@ -1,6 +1,6 @@
 # Childo - Pediatric Clinic Management System
 
-![Clinic Dashboard](./public/dashboard.png "Dashboard of the Pediatric Clinic Management System")
+![Clinic Dashboard](./public/landing-page.png "Landing Page of the Pediatric Clinic Management System")
 
 ## Overview
 
@@ -15,14 +15,11 @@ The Pediatric Clinic Management System is a comprehensive web-based platform des
 - User Authentication and Authorization: Role-based access control for Admins, Doctors, Nurses, and Users.
 
 - Appointment Scheduling System: Allows users to book appointments for their children with specific doctors based on real-time availability, with conflict validation.
-  
 - Data Management System: Secure storage and easy access to patient records, appointments, and progress notes.
 
 - Interactive AI Chatbot: Tailored to assist users and staff with common inquiries and tasks.
 
 - Light and Dark Modes: Enhances usability by providing visual options based on user preference.
-
-
 
 ## User-Centric Features
 
@@ -33,8 +30,6 @@ The Pediatric Clinic Management System is a comprehensive web-based platform des
 - Progress Notes: Doctors can add detailed notes for patient follow-ups and therapy planning.
 
 - Dashboard Access: Role-specific dashboards for easy navigation and functionality based on user roles.
-
-
 
 ## System Roles
 
@@ -68,8 +63,6 @@ View and manage patient information.
 
 Assist doctors with patient follow-up and care.
 
-
-
 ## Benefits
 
 - Enhanced operational efficiency.
@@ -89,4 +82,3 @@ Assist doctors with patient follow-up and care.
 - Backend: .NET
 
 - Database: SQL
-
