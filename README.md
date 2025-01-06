@@ -1,6 +1,6 @@
 # Childo - Pediatric Clinic Management System
 
-![Clinic Dashboard](./public/landing-page.png "Landing Page of the Pediatric Clinic Management System")
+![Clinic Dashboard](./public/layout.png "Landing Page of the Pediatric Clinic Management System")
 
 ## Overview
 
